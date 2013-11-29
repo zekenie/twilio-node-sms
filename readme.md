@@ -6,29 +6,27 @@ Twilio Router is a wrapper for Twilio's SMS APIs. It enables you to declare "rou
 
 ## Usage
 ```javascript
-	app.post('/twilio', new TwilioRouter({
-		routes: {
-			"feedback *comments": "saveComments",
-			"signup :email": "signup",
-			"search :engine for *query": "search"
-		},
+app.post('/twilio', new TwilioRouter({
+	routes: {
+		"feedback *comments": "saveComments",
+		"signup :email": "signup",
+		"search :engine for *query": "search"
+	},
 
-		saveComments: function (comments,req,res) {
-			Comments.create({/*...*/},function(err,comment) {
-				twilioClient.sms.messages.post({to:'+15555555555',from:'+1yournumber',body:'Your comment has been recorded'})
-			});
-		},
+	saveComments: function (comments,req,res) {
+		Comments.create({/*...*/},function(err,comment) {
+			res.sms('Your comment has been recorded')
+		});
+	},
 
-		signup: function (email,req,res) {
-			//...
-		},
+	signup: function (email,req,res) {
+		//...
+	},
 
-		search: function (engine, query,req,res) {
-			//...
-		}
-	});
-
-
+	search: function (engine, query,req,res) {
+		//...
+	}
+});
 ```
 
 ## API
