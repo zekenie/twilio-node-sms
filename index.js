@@ -1,3 +1,4 @@
+var twilio = require('twilio');
 
 var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g,
 	optionalParam = /\((.*?)\)/g,
@@ -36,16 +37,16 @@ function TwilioRouter(properties) {
 	this.route(properties["routes"]);
 	var self = this;
 	return function(req,res,next) {
+		req.From = req.body.From || req.query.From;
+		req.To = req.body.To || req.query.To;
 		res.sms = function(text) {
 			//this is an express response in this case
-			req.From = req.body.From || req.query.From;
-			req.To = req.body.To || req.query.To;
 			this.set("content-type","text/xml");
-			var response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-			response += "<Response><Sms>" + text + "</Sms></Response>";
-			this.send(response);
+			var resp = new twilio.TwimlResponse();
+			resp.sms(text);
+			this.send(resp.toString());
 		};
-		trigger(req.body.Body || req.query.Body,req,res)
+		trigger(req.body.Body || req.query.Body,req,res);
 	};
 }
 

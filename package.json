@@ -3,12 +3,17 @@
   "version": "0.0.0",
   "description": "Makes it easy for an express app to route SMS texts to functions",
   "main": "index.js",
+  "keywords":["twilio","sms"],
   "scripts": {
     "test": "node_modules/venus/bin/venus test"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/zekenie/twilio-router.git"
+  },
+  "bugs":"https://github.com/zekenie/twilio-node-sms/issues",
+  "dependencies":{
+    "twilio":"*"
   },
   "devDependencies": {
     "venus": "2.1.13"
